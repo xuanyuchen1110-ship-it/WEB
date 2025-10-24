@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* 側邊滑出方塊 */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: -200px;
+      width: 200px;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      transition: left 0.4s ease;
+      z-index: 10;
+      padding-top: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      font-family: "Microsoft JhengHei", sans-serif;
+    }
+
+    #sidebar a {
+      color: white;
+      text-decoration: none;
+      font-size: 22px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    #sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    /* iframe 視窗 */
+    #iframeContainer {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 80vw;
+      height: 80vh;
+      transform: translate(-50%, -50%);
+      display: none;
+      z-index: 20;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    #iframeContainer iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* 關閉按鈕 */
+    #closeBtn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+      z-index: 21;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <a href="#" id="link1">作品一</a>
+    <a href="#" id="link2">筆記</a>
+  </div>
+
+  <div id="iframeContainer">
+    <span id="closeBtn">✕</span>
+    <iframe src=""></iframe>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.9/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/roughjs@4.5.0/bundled/rough.js"></script>
+  <script src="sketch.js"></script>
+
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    let sidebarLocked = false;
+
+    document.addEventListener("mousemove", (e) => {
+      if (!sidebarLocked) {
+        if (e.clientX < 10) {
+          sidebar.style.left = "0";
+        } else if (!sidebar.matches(":hover")) {
+          sidebar.style.left = "-200px";
+        }
+      }
+    });
+
+    sidebar.addEventListener("mouseenter", () => {
+      sidebarLocked = true;
+      sidebar.style.left = "0";
+    });
+
+    sidebar.addEventListener("mouseleave", () => {
+      sidebarLocked = false;
+      sidebar.style.left = "-200px";
+    });
+
+    const iframeContainer = document.getElementById("iframeContainer");
+    const iframe = iframeContainer.querySelector("iframe");
+    const closeBtn = document.getElementById("closeBtn");
+
+    document.getElementById("link1").addEventListener("click", () => {
+      iframe.src = "https://xuanyuchen1110-ship-it.github.io/bubble_pop_gamee/";
+      iframeContainer.style.display = "block";
+    });
+
+    document.getElementById("link2").addEventListener("click", () => {
+      iframe.src = "https://hackmd.io/@0976541110/SJpNdsO3gg";
+      iframeContainer.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+      iframeContainer.style.display = "none";
+      iframe.src = "";
+    });
+  </script>
+</body>
+</html>
